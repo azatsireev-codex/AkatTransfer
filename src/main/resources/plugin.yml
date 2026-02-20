@@ -1,0 +1,13 @@
+name: AkatTransfer
+main: net.akat.bank.transfer.Main
+version: 1.0
+author: 2FORWORD2
+api-version: 1.21
+folia-supported: true
+commands:
+  transfer:
+    description: Opens the transaction menu for a specified player and transaction type.
+    usage: /transfer <player> <type>
+  pay:
+    description: Sends money to another player with an optional message.
+    usage: /pay <player> <amount> [message]
