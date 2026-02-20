@@ -18,6 +18,9 @@ import net.akat.bank.transfer.Transaction;
 import net.akat.bank.transfer.manager.TransactionManager;
 
 public class TransactionMenu {
+    private static final int MAX_LORE_LINES = 256;
+    private static final int MENU_FOOTER_LINES = 2;
+
     @SuppressWarnings("unused")
     private final Main plugin;
     private final Logger logger;
@@ -80,10 +83,17 @@ public class TransactionMenu {
             meta.setDisplayName(displayName);
 
             // Лор с деталями всех транзакций этой суммы
-            List<String> lore = transactionManager.findTransactionsWithSameAmount(transactions, tx.getAmount()).stream()
+            List<String> allLoreLines = transactionManager.findTransactionsWithSameAmount(transactions, tx.getAmount()).stream()
                     .map(t -> applyHexColor("#AAAAAA") + "Дата: " + applyHexColor("#F8D06E") + t.getTimestamp().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))
                             + " | " + applyHexColor("#E3B140") + (transactionType.equals("sent") ? "-" : "+") + t.getAmount())
                     .collect(Collectors.toList());
+
+            int maxDetailsLines = MAX_LORE_LINES - MENU_FOOTER_LINES;
+            List<String> lore = new ArrayList<>(allLoreLines.subList(0, Math.min(allLoreLines.size(), maxDetailsLines)));
+            int hiddenLines = allLoreLines.size() - lore.size();
+            if (hiddenLines > 0) {
+                lore.add(applyHexColor("#FFAA00") + "... ещё " + hiddenLines + " записей");
+            }
 
             lore.add("");
             lore.add(applyHexColor("#FFAA00") + "Нажмите, чтобы посмотреть подробнее");
