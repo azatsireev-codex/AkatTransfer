@@ -88,7 +88,10 @@ public class TransactionMenu {
                             + " | " + applyHexColor("#E3B140") + (transactionType.equals("sent") ? "-" : "+") + t.getAmount())
                     .collect(Collectors.toList());
 
-            int maxDetailsLines = MAX_LORE_LINES - MENU_FOOTER_LINES;
+            boolean hasHiddenLines = allLoreLines.size() > (MAX_LORE_LINES - MENU_FOOTER_LINES);
+            int reservedLines = MENU_FOOTER_LINES + (hasHiddenLines ? 1 : 0);
+            int maxDetailsLines = Math.max(0, MAX_LORE_LINES - reservedLines);
+
             List<String> lore = new ArrayList<>(allLoreLines.subList(0, Math.min(allLoreLines.size(), maxDetailsLines)));
             int hiddenLines = allLoreLines.size() - lore.size();
             if (hiddenLines > 0) {
