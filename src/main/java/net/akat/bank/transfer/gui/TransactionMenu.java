@@ -20,6 +20,7 @@ import net.akat.bank.transfer.manager.TransactionManager;
 public class TransactionMenu {
     private static final int MAX_LORE_LINES = 256;
     private static final int MENU_FOOTER_LINES = 2;
+    private static final int MAX_DETAIL_LORE_LINES = 40;
 
     @SuppressWarnings("unused")
     private final Main plugin;
@@ -90,7 +91,7 @@ public class TransactionMenu {
 
             boolean hasHiddenLines = allLoreLines.size() > (MAX_LORE_LINES - MENU_FOOTER_LINES);
             int reservedLines = MENU_FOOTER_LINES + (hasHiddenLines ? 1 : 0);
-            int maxDetailsLines = Math.max(0, MAX_LORE_LINES - reservedLines);
+            int maxDetailsLines = Math.max(0, Math.min(MAX_DETAIL_LORE_LINES, MAX_LORE_LINES - reservedLines));
 
             List<String> lore = new ArrayList<>(allLoreLines.subList(0, Math.min(allLoreLines.size(), maxDetailsLines)));
             int hiddenLines = allLoreLines.size() - lore.size();
